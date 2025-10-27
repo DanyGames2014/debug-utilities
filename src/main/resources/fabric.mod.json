@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "debugutilities",
+  "version": "${version}",
+
+  "name": "Debug Utilities",
+  "description": "",
+  "authors": [
+    "DanyGames2014"
+  ],
+
+  "license": "MIT",
+  "icon": "assets/debugutilities/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "stationapi:event_bus": [
+      "net.danygames2014.debugutilities.DebugUtilities"
+    ],
+    "stationapi:event_bus_client": [
+    ],
+    "stationapi:event_bus_server": [
+    ]
+  },
+  "mixins": [
+    "debugutilities.mixins.json"
+  ],
+
+  "depends": {
+    "minecraft": "1.0.0-beta.7.3"
+  }
+}
