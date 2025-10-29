@@ -1,18 +1,31 @@
 package net.danygames2014.debugutilities.item;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.block.States;
+import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.template.item.TemplatePickaxeItem;
+import net.modificationstation.stationapi.api.util.Formatting;
 import net.modificationstation.stationapi.api.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 
-public class DebugPickaxeItem extends TemplatePickaxeItem {
+public class DebugPickaxeItem extends TemplatePickaxeItem implements CustomTooltipProvider {
     public DebugPickaxeItem(Identifier identifier, ToolMaterial material) {
         super(identifier, material);
-        this.setMaxDamage(0);
+    }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        return true;
+    }
+
+    @Override
+    public boolean postMine(ItemStack stack, int blockId, int x, int y, int z, LivingEntity miner) {
+        return true;
     }
 
     @Override
@@ -29,7 +42,7 @@ public class DebugPickaxeItem extends TemplatePickaxeItem {
             world.setBlockStateWithNotify(x, y, z, States.AIR.get());
         }
 
-        return false;
+        return true;
     }
 
     @Override
