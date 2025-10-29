@@ -8,5 +8,6 @@ public class StateStickItem extends WrenchBase {
     public StateStickItem(Identifier identifier) {
         super(identifier);
         this.addWrenchMode(DebugUtilities.stateCycleMode);
+        this.setUsageDelay(5);
     }
 }

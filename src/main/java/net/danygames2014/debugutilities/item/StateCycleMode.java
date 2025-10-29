@@ -20,46 +20,14 @@ import java.util.Collection;
 import java.util.Iterator;
 
 public class StateCycleMode extends WrenchMode {
-    private final Object2LongOpenHashMap<PlayerEntity> playerCooldowns = new Object2LongOpenHashMap<>();
-    
     public StateCycleMode(Identifier identifier) {
         super(identifier);
-    }
-
-    public boolean cooldown(PlayerEntity player) {
-        if (!playerCooldowns.containsKey(player)) {
-            playerCooldowns.put(player, player.world.getTime() + 5);
-            return false;
-        }
-        
-        long cooldownUntil = playerCooldowns.getLong(player);
-        long currentTime = player.world.getTime();
-
-        // The cooldown has passed normally
-        if (currentTime > cooldownUntil) {
-            playerCooldowns.put(player, player.world.getTime() + 5);
-            System.out.println(cooldownUntil + " " + currentTime);
-            return false;
-        }
-        
-        // Time has somehow skipped back, alleviate the cooldown
-        if (currentTime + 100 < cooldownUntil) {
-            playerCooldowns.put(player, player.world.getTime() + 5);
-            System.out.println(cooldownUntil + " " + currentTime);
-            return false;
-        }
-        
-        return true;
     }
     
     @Override
     public boolean wrenchLeftClick(ItemStack stack, PlayerEntity player, boolean isSneaking, World world, int x, int y, int z, int side, WrenchMode wrenchMode) {
         if (world.isRemote) {
             return super.wrenchLeftClick(stack, player, isSneaking, world, x, y, z, side, wrenchMode);
-        }
-        
-        if (cooldown(player)) {
-            return true;
         }
         
         cycleSelectedProperty(stack, world.getBlockState(x,y,z));
@@ -78,10 +46,6 @@ public class StateCycleMode extends WrenchMode {
     public boolean wrenchRightClick(ItemStack stack, PlayerEntity player, boolean isSneaking, World world, int x, int y, int z, int side, WrenchMode wrenchMode) {
         if (world.isRemote) {
             return super.wrenchLeftClick(stack, player, isSneaking, world, x, y, z, side, wrenchMode);
-        }
-        
-        if (cooldown(player)) {
-            return true;
         }
 
         // Get the selected property, if there is none, default to the first one
@@ -103,6 +67,12 @@ public class StateCycleMode extends WrenchMode {
                 world.setBlockMeta(x, y, z, meta);
                 world.blockUpdateEvent(x,y,z);
             }
+
+            if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+                HotbarTooltipHelper.setTooltip("Set property meta to " + meta, 40);
+            } else {
+                player.sendMessage("Set property meta to " + meta);
+            }
             
         } else {
             // State Cycle
@@ -116,8 +86,15 @@ public class StateCycleMode extends WrenchMode {
             } else {
                 world.setBlockStateWithNotify(x, y, z, state);
             }
+            
+            if (property != null) {
+                if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+                    HotbarTooltipHelper.setTooltip("Set property " + property.getName() + " to " + state.get(property).toString(), 40);
+                } else {
+                    player.sendMessage("Set property " + property.getName() + " to " + state.get(property).toString());
+                }
+            }
         }
-        
 
         return true;
     }
