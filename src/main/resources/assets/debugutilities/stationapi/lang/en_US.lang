@@ -1,2 +1,6 @@
 wrenchmode.debugutilities.meta_cycle.name=Meta Cycle
 wrenchmode.debugutilities.state_cycle.name=State Cycle
+
+item.debugutilities.state_stick.name=State Stick
+item.debugutilities.debug_pickaxe.name=Debug Pickaxe
+item.debugutilities.debug_sword.name=Debug Sword
