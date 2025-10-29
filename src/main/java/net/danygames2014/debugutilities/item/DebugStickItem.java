@@ -11,6 +11,7 @@ public class StateStickItem extends WrenchBase implements CustomTooltipProvider 
     public StateStickItem(Identifier identifier) {
         super(identifier);
         this.addWrenchMode(DebugUtilities.stateCycleMode);
+        this.addWrenchMode(DebugUtilities.inspectorMode);
         this.setUsageDelay(5);
     }
 

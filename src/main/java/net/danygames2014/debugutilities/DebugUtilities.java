@@ -19,6 +19,7 @@ public class DebugUtilities {
     public static Namespace NAMESPACE;
 
     public static WrenchMode stateCycleMode;
+    public static WrenchMode inspectorMode;
     
     public static Item stateStickItem;
     public static Item debugPickaxeItem;
@@ -27,6 +28,7 @@ public class DebugUtilities {
     @EventListener
     public void registerWrenchModes(WrenchModeRegistryEvent event) {
         stateCycleMode = new StateCycleMode(NAMESPACE.id("state_cycle"));
+        inspectorMode = new InspectorMode(NAMESPACE.id("inspector"));
     }
     
     @EventListener
