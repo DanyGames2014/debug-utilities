@@ -7,8 +7,8 @@ import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
 import net.modificationstation.stationapi.api.util.Formatting;
 import net.modificationstation.stationapi.api.util.Identifier;
 
-public class StateStickItem extends WrenchBase implements CustomTooltipProvider {
-    public StateStickItem(Identifier identifier) {
+public class DebugStickItem extends WrenchBase implements CustomTooltipProvider {
+    public DebugStickItem(Identifier identifier) {
         super(identifier);
         this.addWrenchMode(DebugUtilities.stateCycleMode);
         this.addWrenchMode(DebugUtilities.inspectorMode);

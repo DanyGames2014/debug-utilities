@@ -1,9 +1,6 @@
 package net.danygames2014.debugutilities;
 
-import net.danygames2014.debugutilities.item.DebugPickaxeItem;
-import net.danygames2014.debugutilities.item.DebugSwordItem;
-import net.danygames2014.debugutilities.item.StateCycleMode;
-import net.danygames2014.debugutilities.item.StateStickItem;
+import net.danygames2014.debugutilities.item.*;
 import net.danygames2014.uniwrench.api.WrenchMode;
 import net.danygames2014.uniwrench.api.event.WrenchModeRegistryEvent;
 import net.mine_diver.unsafeevents.listener.EventListener;
@@ -21,7 +18,7 @@ public class DebugUtilities {
     public static WrenchMode stateCycleMode;
     public static WrenchMode inspectorMode;
     
-    public static Item stateStickItem;
+    public static Item debugStickItem;
     public static Item debugPickaxeItem;
     public static Item debugSwordItem;
 
@@ -33,7 +30,7 @@ public class DebugUtilities {
     
     @EventListener
     public void registerItems(ItemRegistryEvent event) {
-        stateStickItem = new StateStickItem(NAMESPACE.id("state_stick")).setTranslationKey(NAMESPACE.id("state_stick"));
+        debugStickItem = new DebugStickItem(NAMESPACE.id("debug_stick")).setTranslationKey(NAMESPACE.id("debug_stick"));
 
         ToolMaterial material = ToolMaterialFactory.create("debug", Integer.MAX_VALUE, Integer.MAX_VALUE, Float.MAX_VALUE, 9001);
         debugPickaxeItem = new DebugPickaxeItem(NAMESPACE.id("debug_pickaxe"), material).setTranslationKey(NAMESPACE.id("debug_pickaxe"));
