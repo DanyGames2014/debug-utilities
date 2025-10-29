@@ -31,4 +31,12 @@ public class DebugPickaxeItem extends TemplatePickaxeItem {
 
         return false;
     }
+
+    @Override
+    public @NotNull String[] getTooltip(ItemStack itemStack, String originalTooltip) {
+        return new String[]{
+                originalTooltip,
+                Formatting.GREEN + "Right-click on a block to insta-mine it",
+        };
+    }
 }

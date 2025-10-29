@@ -9,4 +9,13 @@ public class DebugSwordItem extends TemplateSwordItem {
         super(identifier, material);
         this.setMaxDamage(0);
     }
+
+    @Override
+    public @NotNull String[] getTooltip(ItemStack stack, String originalTooltip) {
+        return new String[]{
+                originalTooltip,
+                Formatting.RED + "Right-click to kill all loaded entities",
+                Formatting.DARK_RED + "Shift Right-click to kill all loaded entities and items",
+        };
+    }
 }

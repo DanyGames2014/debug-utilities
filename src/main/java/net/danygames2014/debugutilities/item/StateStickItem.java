@@ -18,8 +18,8 @@ public class StateStickItem extends WrenchBase implements CustomTooltipProvider 
     public String[] getTooltip(ItemStack stack, String originalTooltip) {
         return new String[]{
                 originalTooltip,
-                Formatting.GREEN + "Left Click to select property",
-                Formatting.AQUA + "Right Click to change selected property"
+                Formatting.GREEN + "Left-click to select property",
+                Formatting.AQUA + "Right-click to change selected property"
         };
     }
 }
