@@ -58,15 +58,16 @@ public class StateCycleMode extends WrenchMode {
         if (selectedPropertyName.equals("meta")) {
             // Meta Cycle
             int meta = world.getBlockMeta(x, y, z);
-            meta = meta >= 15 ? 0 : meta + 1;
+            
+            if (isSneaking) {
+                meta = meta <= 0 ? 15 : meta - 1;                
+            } else {
+                meta = meta >= 15 ? 0 : meta + 1;
+            }
             
             // Set the meta
-            if (isSneaking) {
-                world.setBlockMetaWithoutNotifyingNeighbors(x, y, z, meta);
-            } else {
-                world.setBlockMeta(x, y, z, meta);
-                world.blockUpdateEvent(x,y,z);
-            }
+            world.setBlockMeta(x, y, z, meta);
+            world.blockUpdateEvent(x,y,z);
 
             if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
                 HotbarTooltipHelper.setTooltip("Set property meta to " + meta, 40);

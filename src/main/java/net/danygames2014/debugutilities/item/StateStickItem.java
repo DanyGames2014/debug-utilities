@@ -2,12 +2,24 @@ package net.danygames2014.debugutilities.item;
 
 import net.danygames2014.debugutilities.DebugUtilities;
 import net.danygames2014.uniwrench.item.WrenchBase;
+import net.minecraft.item.ItemStack;
+import net.modificationstation.stationapi.api.client.item.CustomTooltipProvider;
+import net.modificationstation.stationapi.api.util.Formatting;
 import net.modificationstation.stationapi.api.util.Identifier;
 
-public class StateStickItem extends WrenchBase {
+public class StateStickItem extends WrenchBase implements CustomTooltipProvider {
     public StateStickItem(Identifier identifier) {
         super(identifier);
         this.addWrenchMode(DebugUtilities.stateCycleMode);
         this.setUsageDelay(5);
+    }
+
+    @Override
+    public String[] getTooltip(ItemStack stack, String originalTooltip) {
+        return new String[]{
+                originalTooltip,
+                Formatting.GREEN + "Left Click to select property",
+                Formatting.AQUA + "Right Click to change selected property"
+        };
     }
 }
