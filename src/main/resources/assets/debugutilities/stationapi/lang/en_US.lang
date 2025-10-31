@@ -1,6 +1,6 @@
 wrenchmode.debugutilities.state_cycle.name=State Cycle
 wrenchmode.debugutilities.inspector.name=Inspector
 
-item.debugutilities.state_stick.name=State Stick
+item.debugutilities.debug_stick.name=Debug Stick
 item.debugutilities.debug_pickaxe.name=Debug Pickaxe
 item.debugutilities.debug_sword.name=Debug Sword
