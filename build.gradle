@@ -1,7 +1,7 @@
 plugins {
     id 'maven-publish'
-    id 'fabric-loom' version '1.11.7'
-    id 'babric-loom-extension' version '1.10.2'
+    id 'fabric-loom' version '1.12.2'
+    id 'babric-loom-extension' version '1.12.1'
     id "com.modrinth.minotaur" version "2.+"
 }
 
@@ -153,9 +153,9 @@ dependencies {
     }
 
     if (project.hasProperty("uniwrench_version")) {
-        modImplementation("net.danygames2014:UniWrench:${project.uniwrench_version}") {
+        transitiveImplementation(modImplementation("net.danygames2014:UniWrench:${project.uniwrench_version}") {
             transitive = false
-        }
+        })
     }
 
     if (project.hasProperty("retroauth_version")) {
