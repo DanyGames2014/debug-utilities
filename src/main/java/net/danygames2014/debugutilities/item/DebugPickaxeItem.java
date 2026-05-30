@@ -39,7 +39,7 @@ public class DebugPickaxeItem extends TemplatePickaxeItem implements CustomToolt
 
         if (!state.isAir()) {
             state.getBlock().dropStacks(world, x, y, z, meta);
-            world.setBlockStateWithNotify(x, y, z, States.AIR.get());
+            world.setBlockState(x, y, z, States.AIR.get());
         }
 
         return true;

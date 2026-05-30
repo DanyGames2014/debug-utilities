@@ -83,9 +83,9 @@ public class StateCycleMode extends WrenchMode {
             
             // Set the block state back into world
             if (isSneaking) {
-                world.setBlockState(x, y, z, state);
+                world.setBlockStateWithoutNotifyingNeighbors(x, y, z, state);
             } else {
-                world.setBlockStateWithNotify(x, y, z, state);
+                world.setBlockState(x, y, z, state);
             }
             
             if (property != null) {
