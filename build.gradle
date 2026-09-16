@@ -1,7 +1,7 @@
 plugins {
     id 'maven-publish'
-    id 'fabric-loom' version '1.16.2'
-    id 'babric-loom-extension' version '1.15.3'
+    id 'fabric-loom' version '1.17.20'
+    id 'babric-loom-extension' version '1.17.4'
     id "com.modrinth.minotaur" version "2.+"
 }
 
@@ -23,46 +23,43 @@ loom {
     if (project.hasProperty("accesswidener_name") && project.accesswidener_name.length() > 0) {
         accessWidenerPath = file("src/main/resources/${project.accesswidener_name}.accesswidener")
     }
-    mixin {
-        useLegacyMixinAp = false
-    }
 }
 
 repositories {
-    // Used for Babric Loom Extensions
-    maven {
-        name = "Babric"
-        url = "https://maven.glass-launcher.net/babric"
-    }
-
-    // Used for many dependencies
-    maven {
-        name = "Glass Releases"
-        url = "https://maven.glass-launcher.net/releases"
-    }
-
-    // Used for Snapshots
-    maven {
-        name = "Glass Snapshots"
-        url = "https://maven.glass-launcher.net/snapshots"
-    }
-
     // NyaRepo
     maven {
         name = "NyaRepo"
         url = "https://maven.fildand.cz/releases"
     }
 
-    // Used for a StationAPI dependency.
+    // MeowRepo
+    maven {
+        name = "MeowRepo"
+        url = "https://maven.danygames2014.net/releases"
+    }
+
+    // Used for Babric Loom and Intermediary
+    maven {
+        name = "Babric"
+        url = "https://maven.glass-launcher.net/babric"
+    }
+
+    // Glass Maven Releases
+    maven {
+        name = "Glass Releases"
+        url = "https://maven.glass-launcher.net/releases"
+    }
+
+    // Glass Maven Snapshots
+    maven {
+        name = "Glass Snapshots"
+        url = "https://maven.glass-launcher.net/snapshots"
+    }
+
+    // Used for a net.jodah.typetools (StationAPI dependency)
     maven {
         name = "Froge Maven"
         url = "https://maven.minecraftforge.net/"
-    }
-
-    // Used for projects that do not have a maven repository, but do have a GitHub repository with working build scripts.
-    maven {
-        name = "Jitpack"
-        url = "https://jitpack.io"
     }
 
     // Modrinth Maven
@@ -79,7 +76,17 @@ repositories {
         }
     }
 
+    // Maven Central
     mavenCentral()
+
+    // Used for projects that do not have a maven repository, but do have a GitHub repository with working build scripts.
+    maven {
+        name = "Jitpack"
+        url = "https://jitpack.io"
+    }
+
+    // Maven Local
+    mavenLocal()
 }
 
 dependencies {
@@ -154,13 +161,14 @@ dependencies {
     }
 
     if (project.hasProperty("uniwrench_version")) {
-        modImplementation("net.danygames2014:UniWrench:${project.uniwrench_version}") {
+        transitiveImplementation("net.danygames2014:UniWrench:${project.uniwrench_version}") {
             transitive = false
         }
     }
 
+    // Runtime-Only Mods
     if (project.hasProperty("debugutilities_version")) {
-        modImplementation("net.danygames2014:DebugUtilities:${project.debugutilities_version}")
+        modRuntimeOnly("net.danygames2014:DebugUtilities:${project.debugutilities_version}")
     }
 
     if (project.hasProperty("retroauth_version")) {
@@ -208,6 +216,11 @@ jar {
     }
 }
 
+configurations {
+    transitiveImplementation
+    modImplementation.extendsFrom transitiveImplementation
+}
+
 // Maven Publishing
 publishing {
     repositories {
@@ -238,10 +251,13 @@ publishing {
 
     publications {
         create("mavenJava", MavenPublication) {
-            //noinspection GrUnresolvedAccess
             artifactId = base.archivesName.get()
-            //noinspection GrUnresolvedAccess, GroovyAssignabilityCheck
             from components.java
+
+            pom.withXml {
+                def allowed = configurations.transitiveImplementation.allDependencies.collect { it.name }
+                asNode().dependencies[0]?.children()?.removeIf { !allowed.contains(it.artifactId.text()) }
+            }
         }
     }
 }
